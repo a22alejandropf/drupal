@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web:
+    build: apache
+    env_file:
+      - .env
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./apache/drupal.conf:/etc/apache2/sites-enabled/drupal.conf
+      - ./html:/var/www/html
+      - ./apache/certificados:/certificados
+  basedatos:
+    image: mysql:8
+    env_file:
+      - .env
+    volumes:
+      - datosbd:/var/lib/mysql
+      - ./db:/db
+      - ./db/copias:/docker-entrypoint-initdb.d
+volumes:
+  datosbd:
